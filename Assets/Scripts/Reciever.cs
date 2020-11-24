@@ -7,6 +7,8 @@ public class Reciever : MonoBehaviour
     [SerializeField] bool toggleActivated = true;
     [SerializeField] Material basic;
     [SerializeField] Material connected;
+    [SerializeField] Material hack;
+    [SerializeField] Outline outline;
     [SerializeField] GameObject sidePut;
     [SerializeField] string recieverType;
     public GameObject body;
@@ -25,12 +27,20 @@ public class Reciever : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        outline.enabled = false;
         var ren = body.GetComponent<Renderer>();
         ren.material = basic;
-        if (connect)
+        /*if (connect)
         {
             ren.material = connected;
+        }*/
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            ren.material = hack;
+            outline.enabled = true;
         }
+
     }
 
     public void triggerObject()

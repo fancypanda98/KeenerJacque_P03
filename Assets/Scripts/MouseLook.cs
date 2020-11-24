@@ -10,6 +10,8 @@ public class MouseLook : MonoBehaviour
     [SerializeField] float shootDistance = 15f;
     [SerializeField] float mouseSensitivity = 100f;
     [SerializeField] Camera cameraController;
+    [SerializeField] Color skyNormal;
+    [SerializeField] Color skyHack;
     [SerializeField] Transform rayOrigin;
     [SerializeField] LayerMask hitLayers;
 
@@ -37,7 +39,7 @@ public class MouseLook : MonoBehaviour
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * mouseX);
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.LeftShift))
         {
             Vector3 rayDirection = cameraController.transform.forward;
             Debug.DrawRay(rayOrigin.position, rayDirection * shootDistance, Color.white, 1f);
@@ -51,12 +53,26 @@ public class MouseLook : MonoBehaviour
                     var send = sendP.senderParent;
                     if (hold != null)
                     {
+                        hold.connect = false;
                         hold.select = false;
+                        hold = send;
+                        hold.select = true;
+                        hold.connect = false;
+                        if (hold.output != null)
+                        {
+                            hold.connect = false;
+                            hold.output = null;
+                        }
                     }
                     else
                     {
-                        send.select = true;
                         hold = send;
+                        hold.select = true;
+                        if (hold.output != null)
+                        {
+                            hold.connect = false;
+                            hold.output = null;
+                        }
                     }
                 }
                 else
@@ -96,7 +112,7 @@ public class MouseLook : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !Input.GetKey(KeyCode.LeftShift))
         {
             Vector3 rayDirection = cameraController.transform.forward;
             Debug.DrawRay(rayOrigin.position, rayDirection * shootDistance, Color.yellow, 1f);
@@ -106,9 +122,24 @@ public class MouseLook : MonoBehaviour
                 if (sendP != null)
                 {
                     var send = sendP.senderParent;
-                    send.output.triggerObject();
+                    if (send.output != null)
+                    {
+                        send.output.triggerObject();
+                    }
                 }
             }
         }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            cameraController.backgroundColor = skyHack;
+        }
+
+        if (!Input.GetKey(KeyCode.LeftShift))
+        {
+            cameraController.backgroundColor = skyNormal;
+        }
+
+
     }
 }
