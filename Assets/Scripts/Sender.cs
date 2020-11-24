@@ -53,17 +53,20 @@ public class Sender : MonoBehaviour
 
         sidePut.SetActive(activated);
 
-        if (select)
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            line.enabled = true;
-            line.SetPosition(0, body.transform.position);
-            line.SetPosition(1, rayOrigin.position + look.transform.forward * 15);
-        }
-        if (connect)
-        {
-            line.enabled = true;
-            line.SetPosition(0, body.transform.position);
-            line.SetPosition(1, output.body.transform.position);
+            if (select)
+            {
+                line.enabled = true;
+                line.SetPosition(0, body.transform.position);
+                line.SetPosition(1, rayOrigin.position + look.transform.forward * 15);
+            }
+            if (connect)
+            {
+                line.enabled = true;
+                line.SetPosition(0, body.transform.position);
+                line.SetPosition(1, output.body.transform.position);
+            }
         }
     }
 }

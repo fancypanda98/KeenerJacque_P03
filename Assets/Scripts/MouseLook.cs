@@ -14,6 +14,9 @@ public class MouseLook : MonoBehaviour
     [SerializeField] Color skyHack;
     [SerializeField] Transform rayOrigin;
     [SerializeField] LayerMask hitLayers;
+    [SerializeField] AudioClip select;
+    [SerializeField] AudioClip hack;
+    [SerializeField] AudioClip connect;
 
     public Transform playerBody;
 
@@ -50,6 +53,7 @@ public class MouseLook : MonoBehaviour
                 var sendP = objectHit.transform.GetComponent<SendPoint>();
                 if (sendP != null)
                 {
+                    AudioManager.PlayClip2D(select, 100);
                     var send = sendP.senderParent;
                     if (hold != null)
                     {
@@ -83,6 +87,7 @@ public class MouseLook : MonoBehaviour
                         var rec = recP.recieverParent;
                         if (hold != null)
                         {
+                            AudioManager.PlayClip2D(connect, 100);
                             if (hold.output != null)
                             {
                                 hold.output.connect = false;
@@ -138,8 +143,18 @@ public class MouseLook : MonoBehaviour
         if (!Input.GetKey(KeyCode.LeftShift))
         {
             cameraController.backgroundColor = skyNormal;
+            if (hold != null)
+            {
+                hold.connect = false;
+                hold.select = false;
+                hold = null;
+            }
         }
 
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            AudioManager.PlayClip2D(hack, 100);
+        }
 
     }
 }

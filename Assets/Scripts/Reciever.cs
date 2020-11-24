@@ -39,6 +39,9 @@ public class Reciever : MonoBehaviour
         {
             ren.material = hack;
             outline.enabled = true;
+            outline.OutlineColor = Color.red;
+            outline.OutlineWidth = 9f;
+            
         }
 
     }
