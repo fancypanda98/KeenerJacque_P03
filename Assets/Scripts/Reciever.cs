@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Reciever : MonoBehaviour
 {
-    public Sender source;
     [SerializeField] bool toggleActivated = true;
     [SerializeField] Material basic;
     [SerializeField] Material connected;
     [SerializeField] GameObject sidePut;
+    [SerializeField] string recieverType;
     public GameObject body;
     public bool activated = false;
     public bool connect = false;
+    public RecPoint point;
 
 
     // Start is called before the first frame update
@@ -30,13 +31,30 @@ public class Reciever : MonoBehaviour
         {
             ren.material = connected;
         }
+    }
 
-        if (source != null)
+    public void triggerObject()
+    {
+        if(recieverType == "light")
         {
-            activated = source.activated;
+
+            sidePut.SetActive(!sidePut.activeSelf);
+        }else if(recieverType == "door")
+        {
+            activated = !activated;
+            if (activated)
+            {
+                transform.Rotate(0f, 90f, 0f, Space.Self);
+            }
+            else
+            {
+                transform.Rotate(0f, -90f, 0f, Space.Self);
+            }
+        }else if(recieverType == "outlet")
+        {
+            //play sound
+            //play animation
+            //deal damage
         }
-
-        sidePut.SetActive(activated);
-
     }
 }

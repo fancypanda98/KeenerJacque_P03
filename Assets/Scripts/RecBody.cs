@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RecPoint : MonoBehaviour
+public class RecBody : MonoBehaviour
 {
 
-    public Reciever recieverParent;
     
 
     // Start is called before the first frame update
@@ -17,6 +16,6 @@ public class RecPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

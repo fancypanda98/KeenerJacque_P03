@@ -37,7 +37,7 @@ public class MouseLook : MonoBehaviour
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * mouseX);
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !Input.GetKey(KeyCode.LeftShift))
         {
             Vector3 rayDirection = cameraController.transform.forward;
             Debug.DrawRay(rayOrigin.position, rayDirection * shootDistance, Color.white, 1f);
@@ -70,16 +70,9 @@ public class MouseLook : MonoBehaviour
                             if (hold.output != null)
                             {
                                 hold.output.connect = false;
-                                hold.output.source = null;
-                            }
-                            if (rec.source != hold && rec.source)
-                            {
-                                rec.source.connect = false;
-                                rec.source.output = null;
                             }
                             hold.connect = true;
                             hold.output = rec;
-                            rec.source = hold;
                             hold.select = false;
                             rec.connect = true;
                             hold = null;
@@ -94,7 +87,6 @@ public class MouseLook : MonoBehaviour
                             if (hold.output != null)
                             {
                                 hold.output.connect = false;
-                                hold.output.source = null;
                                 hold.output = null;
                             }
                             hold = null;
@@ -104,7 +96,7 @@ public class MouseLook : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && Input.GetKey(KeyCode.LeftShift))
         {
             Vector3 rayDirection = cameraController.transform.forward;
             Debug.DrawRay(rayOrigin.position, rayDirection * shootDistance, Color.yellow, 1f);
@@ -114,7 +106,7 @@ public class MouseLook : MonoBehaviour
                 if (sendP != null)
                 {
                     var send = sendP.senderParent;
-                    send.activated = !send.activated;
+                    send.output.triggerObject();
                 }
             }
         }
